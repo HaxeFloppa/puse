@@ -1,5 +1,5 @@
 '''
-PUSO: Python User Sanity Obliterator
+PUSE: Python User Sanity Eliminator
 '''
 import ast
 import os
@@ -13,8 +13,8 @@ class Check:
         self.content = content
 
         self.import_strs = {'from', 'import'}
-        self.end_chars = {':', ';', ',', '\\'}
-
+        self.end_chars = {':', ';', ',', '\\'}  
+    
     def throw_error(self, 
                     idx, 
                     type='SyntaxError', 
@@ -139,7 +139,31 @@ class Check:
             #                      type='SyntaxError', 
             #                      message="submodule imports are no longer supported")
 
-
+    
+    def var_type(self):
+        var_check = 0
+        var_str = ""
+        potential_variable = false
+        
+        for letter in range(len(line)):
+            var_str = var_str + line[var_check]
+            if line[var_check] == "=":
+                potential_variable = true
+            var_check += 1
+        if potential_variable == true:
+            if not var_str.startswith("var"):
+                self.throw_error(idx, type='SyntaxError', message="no type to define variable by")
+            else:
+                continue
+         else:
+            continue
+    
+    def no_more_indentation(self):
+        if line.startswith(" "):
+            self.throw_error(idx, type='SyntaxError', message='unnesecary indentation at start of line')
+        else:
+            continue
+    
     def semicolon(self):
         comment_enabled = 0
 
