@@ -153,6 +153,8 @@ class Check:
         if potential_variable == true:
             if not var_str.startswith("var"):
                 self.throw_error(idx, type='SyntaxError', message="no type to define variable by")
+            elif not var_str[4] == " ":
+                self.throw_error(idx, type='SyntaxError', message="no type to define variable by")
             else:
                 continue
          else:
