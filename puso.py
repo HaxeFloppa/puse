@@ -143,28 +143,33 @@ class Check:
     def var_type(self):
         var_check = 0
         var_str = ""
-        potential_variable = false
-        
+        potential_variable = False
+        for idx, line in enumerate(self.content):
+            if not line.strip():
+                continue 
         for letter in range(len(line)):
             var_str = var_str + line[var_check]
             if line[var_check] == "=":
-                potential_variable = true
+                potential_variable = True
             var_check += 1
-        if potential_variable == true:
+        if potential_variable == True:
             if not var_str.startswith("var"):
                 self.throw_error(idx, type='SyntaxError', message="no type to define variable by")
             elif not var_str[4] == " ":
                 self.throw_error(idx, type='SyntaxError', message="no type to define variable by")
             else:
-                continue
-         else:
-            continue
+                return 0
+        else:
+            return 0
     
     def no_more_indentation(self):
+        for idx, line in enumerate(self.content):
+            if not line.strip():
+                continue 
         if line.startswith(" "):
             self.throw_error(idx, type='SyntaxError', message='unnesecary indentation at start of line')
         else:
-            continue
+            return 0
     
     def semicolon(self):
         comment_enabled = 0
@@ -206,5 +211,6 @@ def run(custom_file_path=None):
 
     check.imports()
     check.semicolon()
-
+    #check.var_type()
+    #check.no_more_indentation()
 
